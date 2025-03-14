@@ -1,11 +1,3 @@
-<?php
-
-    require "./basesDeDatos/dbHostal.php";
-    $bd = new dbHostal();
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -19,6 +11,9 @@
         <p>*********************** DATOS DEL TRABAJADOR EN EL SISTEMA *******************</p>
         <label for="nombretrabajador">Nombre de la persona que va a hacer la reserva</label>
         <input type="text" id="nombretrabajador" name="nombretrabajador" required><br><br>
+
+        <label for="identificaciontrabajador">Identificación del trabajador</label>
+        <input type ="text" id="identificaciontrabajador" name="identificaciontrabajador" required>
 
         <p>*********************** DATOS DE LA PERSONA QUE SE VA A HOSPEDAR ****************</p>
         <label for="tipoidentificacion">Tipo de identificacion</label>

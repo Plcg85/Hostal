@@ -58,7 +58,7 @@
                 id_usuario INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 nombre VARCHAR(64) NOT NULL,
                 apellido VARCHAR(64) NOT NULL,
-                numero_identificacion VARCHAR(16) NOT NULL,
+                numero_identificacion VARCHAR(16) NOT NULL, 
                 UNIQUE (nombre, apellido, numero_identificacion))";
             $this->ejecutarSentenciasCreacionTablas($sql);
         }
@@ -105,6 +105,44 @@
                 $this->_CONNECTION->query($sql);
 
             }catch (Exception $e){echo "Error: " . $e->getMessage();};
+
+        }
+
+        //esta función valida que un trabajador este guardado en la base de datos
+        public function validarTrabajador($nombre, $numeroidentificacion){
+
+            //preparar la consulta
+            $smtp = $this->_CONNECTION->prepare("SELECT * FROM usuarios WHERE nombre = ? AND numero_identificacion = ?");
+            $smtp->bind_param("ss", $nombre, $numeroidentificacion);
+
+            $smtp->execute();
+            $resultado = $smtp->get_result();
+
+            if ($resultado->num_rows === 1){
+                $smtp->close();
+                return true;
+            }else{
+                $smtp->close();
+                return false;
+            }
+
+        }
+
+        //esta funcion añade un nuevo trabajador a la base de datos
+        public function nuevoTrabajador($nombre, $apellido, $numeroidentificacion)
+        {
+
+            //preparar la consulta sql
+            $smtp = $this->_CONNECTION->prepare("INSERT INTO usuarios(nombre, apellido, numero_identificacion) VALUES(?, ?, ?)");
+            $smtp->bind_param("sss", $nombre, $apellido, $numeroidentificacion);
+            if ($smtp->execute())
+            {
+                return true;
+            }else {
+                return false;
+            }
+
+            $smtp->close();
 
         }
     }//final clase dbHostal
